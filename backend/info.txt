@@ -1,0 +1,61 @@
+### Backend Summary
+
+**1. Models:**
+
+* **User Model:** Defines user data (name, email, password, avatar, transactions array, etc.).
+* **Transaction Model:** Defines transaction data (title, amount, category, description, date, user reference, transactionType, etc.).
+
+---
+
+**2. Controllers:**
+
+* **User Controllers:**
+
+  * **registerControllers:** Registers a new user, hashes password securely with bcrypt.
+  * **loginControllers:** Authenticates user by comparing hashed passwords.
+  * **setAvatarController:** Updates user's avatar image and avatar status flag.
+  * **allUsers:** Fetches all users except the requester.
+
+* **Transaction Controllers:**
+
+  * **addTransactionController:** Creates a new transaction linked to a user and updates the user’s transaction list.
+  * **getAllTransactionController:** Retrieves transactions filtered by user, type, date range, or frequency.
+  * **deleteTransactionController:** Deletes a transaction and removes its reference from the user’s transactions array.
+  * **updateTransactionController:** Updates transaction details selectively by transaction ID.
+
+---
+
+**3. Routes:**
+
+* **User Routes (`userRouter.js`):**
+
+  * POST `/register` → `registerControllers`
+  * POST `/login` → `loginControllers`
+  * POST `/setAvatar/:id` → `setAvatarController`
+
+* **Transaction Routes (`transactionRoutes.js`):**
+
+  * POST `/addTransaction` → `addTransactionController`
+  * POST `/getTransaction` → `getAllTransactionController`
+  * POST `/deleteTransaction/:id` → `deleteTransactionController`
+  * PUT `/updateTransaction/:id` → `updateTransactionController`
+
+---
+
+**4. Integration in `app.js`:**
+
+* Middleware to parse JSON.
+* Routers mounted on base paths, e.g., `/api/users` and `/api/transactions`.
+* Example: Request to `/api/users/register` triggers user registration.
+
+---
+
+**5. Key Points:**
+
+* Passwords hashed with bcrypt using salt for security.
+* User transactions stored as an array of **transaction IDs** (references).
+* Use of `moment` for date filtering in transactions.
+* Proper HTTP status codes and JSON responses used in controllers.
+* Separation of concerns with models, controllers, and routes for clean code structure.
+
+---
